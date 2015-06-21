@@ -2,18 +2,27 @@ package ringbuffer;
 
 import java.util.List;
 
-public class CategoricalAttribute {
+public class CategoricalAttribute extends Attribute {
 	
-	private String column;
 	private List<String> values;
 	
 	public CategoricalAttribute(String columnName, List<String> values) {
-		this.column = columnName;
+		super(columnName);
 		this.values = values;
 	}
 	
-	public double getValueOnInterval(double value) {
-		return 0;
+	public void addToValues(String value) {
+		if (!values.contains(value)) {
+			values.add(value);
+		}
+	}
+
+	public List<String> getValues() {
+		return values;
+	}
+
+	public void setValues(List<String> values) {
+		this.values = values;
 	}
 	
 }
