@@ -1,6 +1,5 @@
 package ringbuffer;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Metadata {
@@ -12,12 +11,6 @@ public class Metadata {
 	//continuous
 	private ContinuousAttribute axisX;
 	private ContinuousAttribute axisY;
-	
-	//column names
-	private String colorName;
-	private String sizeName;
-	private String axisXName;
-	private String axisYName;
 	
 	public Metadata() {
 		ArrayList<String> aux = new ArrayList<String>();
@@ -63,35 +56,19 @@ public class Metadata {
 	}
 
 	public String getColorName() {
-		return colorName;
-	}
-
-	public void setColorName(String colorName) {
-		this.colorName = colorName;
+		return color.getColumnName();
 	}
 
 	public String getSizeName() {
-		return sizeName;
-	}
-
-	public void setSizeName(String sizeName) {
-		this.sizeName = sizeName;
+		return size.getColumnName();
 	}
 
 	public String getAxisXName() {
-		return axisXName;
-	}
-
-	public void setAxisXName(String axisXName) {
-		this.axisXName = axisXName;
+		return axisX.getColumnName();
 	}
 
 	public String getAxisYName() {
-		return axisYName;
+		return axisY.getColumnName();
 	}
 
-	public void setAxisYName(String axisYName) {
-		this.axisYName = axisYName;
-	}
-	
 }

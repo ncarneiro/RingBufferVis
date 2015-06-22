@@ -40,7 +40,7 @@ public class RingBuffer {
 		}
 	}
 	
-	public synchronized RingBufferItem consume(RingBufferItem o) {
+	public synchronized RingBufferItem consume() {
 		rbi = buffer[pointerConsumer];
 		buffer[pointerConsumer] = null;
 		pointerConsumer = addToPointer(pointerConsumer);

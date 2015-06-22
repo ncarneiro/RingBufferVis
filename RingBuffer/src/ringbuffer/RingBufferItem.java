@@ -6,9 +6,10 @@ import java.util.HashMap;
 public class RingBufferItem {
 	
 	public static enum TYPE {EMPTY, DATA, DRAWING}
+	private final int limitOfPoints = 8;
+	
 	
 	private TYPE type;
-	private final int limitOfPoints = 8;
 	
 	//recovering information
 	private int id;
@@ -23,6 +24,7 @@ public class RingBufferItem {
 	private int[] x;
 	private int[] y;
 	private int numberOfPoints;
+	private int size;
 	
 	public RingBufferItem() {
 		this.id = -1;
@@ -105,6 +107,14 @@ public class RingBufferItem {
 
 	public void setMappingsContinuos(HashMap<String, Double> mappingsContinuos) {
 		this.mappingsContinuos = mappingsContinuos;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 	
 }
