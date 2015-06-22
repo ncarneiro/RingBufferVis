@@ -11,8 +11,8 @@ public class RingBuffer {
 	
 	//control and response
 	private final int minimumSize = 3;
-	private boolean pub;
-	private boolean mod;
+	//private boolean pub;
+	//private boolean mod;
 	private RingBufferItem rbi;
 	
 	public RingBuffer(int bufferSize) {
@@ -20,10 +20,13 @@ public class RingBuffer {
 		for (int i = 0; i < buffer.length; i++) {
 			buffer[i] = new RingBufferItem();
 		}
+		pointerPublisher = 0;
+		pointerModifier = -1;
+		pointerConsumer = -1;
 	}
 	
 	public synchronized RingBufferItem publish() {
-		rbi = buffer[pointerModifier];
+		rbi = buffer[pointerPublisher];
 		if (rbi.getType()==TYPE.EMPTY) {
 			pointerPublisher = addToPointer(pointerPublisher);
 			return rbi;
@@ -43,7 +46,7 @@ public class RingBuffer {
 	}
 	
 	public synchronized RingBufferItem consume() {
-		rbi = buffer[pointerModifier];
+		rbi = buffer[pointerConsumer];
 		if (rbi.getType()==TYPE.DRAWING) {
 			pointerConsumer = addToPointer(pointerConsumer);
 			return rbi;
