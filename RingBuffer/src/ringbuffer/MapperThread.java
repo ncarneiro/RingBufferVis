@@ -28,7 +28,7 @@ public class MapperThread implements Runnable {
 	
 	private boolean modify() {
 		rbi = ringBuffer.acess();
-		if (rbi.getType()==TYPE.DATA) {
+		if (rbi.getType()!=null) {
 			//categoricos
 			int sssss = rbi.getMappingsCatgoricos().size();
 			sssss = 0 + sssss;
@@ -41,7 +41,7 @@ public class MapperThread implements Runnable {
 			x = (int)metadata.getAxisX().convertToInterval(0, largura, rbi.getMappingsContinuos().get(metadata.getAxisXName()));
 			y = (int)metadata.getAxisX().convertToInterval(0, altura, rbi.getMappingsContinuos().get(metadata.getAxisYName()));
 			for (int i = 0; i < currentPoints; i++) {
-				if (i%2==0) {
+				if (i==0 || i==3) {
 					rbi.getX()[i] = x-10;
 				} else {
 					rbi.getX()[i] = x+10;
