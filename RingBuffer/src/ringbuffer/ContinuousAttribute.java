@@ -23,7 +23,8 @@ public class ContinuousAttribute extends Attribute {
 	public double convertToInterval(double min, double max, double value) {
 		double ajusteGlobal = this.min*-1;
 		double ajusteLocal = min*-1;
-		double result = ((this.max+ajusteGlobal)*(value+ajusteLocal))/(max+ajusteLocal);
+		//double result = ((this.max+ajusteGlobal)*(value+ajusteLocal))/(max+ajusteLocal);
+		double result = ((max+ajusteLocal) * (value+ajusteLocal)) / (this.max+ajusteGlobal);
 		result+=this.min;
 		return result;
 	}

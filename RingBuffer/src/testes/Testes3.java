@@ -13,19 +13,7 @@ import ringbuffer.RingBuffer;
 public class Testes3 {
 
 	public static void main(String[] args) {
+		LoaderThread.getMetadata();
+	}
 
-		RingBuffer rb = new RingBuffer(1024);
-		LoaderThread loader = null;
-		try {
-			loader = new LoaderThread(rb);
-		} catch {};
-		
-		Metadata metadata = new Metadata();
-		MapperThread mapper = new MapperThread(metadata, rb);
-		DrawThread drawer = new DrawThread(rb);
-		
-		loader.run();
-		mapper.run();
-		drawer.run();
-	}	
 }
