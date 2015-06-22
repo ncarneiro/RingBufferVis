@@ -19,11 +19,11 @@ public class DrawThread implements Runnable {
 	static RingBufferItem rbi;
 	
 	public DrawThread(RingBuffer rb) {
+		this.rb = rb;
 		surface = new BufferedImage(650, 650, BufferedImage.TYPE_INT_RGB);
 		view = new JLabel(new ImageIcon(surface));
 		g = surface.getGraphics();
 		g.setColor(Color.WHITE);
-		this.rb = rb;
 		g.fillRect(0, 0, 650, 650);
 		g.dispose();
 	}
@@ -31,7 +31,7 @@ public class DrawThread implements Runnable {
 	public synchronized static void desenhar() {
 		
 		rbi = rb.consume();
-		if ( rbi == null  || rbi.getType() == TYPE.DRAWING ) {
+		if ( rbi != null   ) {
 			System.out.println("Desenhando");
 			g = surface.getGraphics();
 			g.setColor(rbi.getColor());

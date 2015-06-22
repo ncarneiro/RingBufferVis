@@ -28,7 +28,7 @@ public class MapperThread implements Runnable {
 	
 	private boolean modify() {
 		rbi = ringBuffer.acess();
-		if (rbi!=null) {
+		if (rbi.getType()==TYPE.DATA) {
 			//categoricos
 			rbi.setColor(colors[metadata.getColor().getValues().indexOf(rbi.getMappingsCatgoricos().get(metadata.getColorName()))]);
 			rbi.setSize(sizes[metadata.getSize().getValues().indexOf(rbi.getMappingsCatgoricos().get(metadata.getSizeName()))]);

@@ -23,19 +23,16 @@ public class LoaderThread implements Runnable {
 	
 	@Override
 	public void run() {
-
 		// leitura do arquivo
 		try {
 			//ler = new FileInputStream("\\RingBuffer\\Datasets\\Dataset1.csv");
 			ler = new FileInputStream("C:\\Users\\TiagoDavi\\git\\RingBufferVis\\RingBuffer\\Datasets\\Dataset1.csv");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		} catch (FileNotFoundException e) {}
 		int letra;
 		String vet[] = new String[8];
 		int i = 0;
 		try {
-			while ((letra = ler.read()) != -1 || i < 2) {
+			while ( ((letra = ler.read()) != -1) && (i < 2)) {
 				dados += (char) letra;
 				if (letra == ((int) '\n')) {
 					i++;
@@ -51,9 +48,7 @@ public class LoaderThread implements Runnable {
 					vet = dados.split(";");
 					dados = "";
 					rbi = rb.publish();
-
 					if (rbi.getType() == TYPE.EMPTY) {
-						System.out.println("Reading");
 						rbi.setType(TYPE.DATA);
 						continuos.put("ID", Double.parseDouble(vet[0]));
 						continuos.put("NOTA1", Double.parseDouble(vet[1]));
@@ -63,9 +58,11 @@ public class LoaderThread implements Runnable {
 						continuos.put("MEDIA", Double.parseDouble(vet[5]));
 						categoricos.put("SITUACAO", vet[6]);
 						categoricos.put("CONCEITO", vet[7]);
-						
+
+						System.out.println("Reading" + continuos.get("ID"));
 						rbi.setMappingsCatgoricos(categoricos);
 						rbi.setMappingsContinuos(continuos);
+						categoricos.clear();
 					}
 				}
 			}
