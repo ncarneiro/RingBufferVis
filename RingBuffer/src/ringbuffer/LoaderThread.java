@@ -1,7 +1,8 @@
 package ringbuffer;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,88 +11,60 @@ import ringbuffer.RingBufferItem.TYPE;
 
 public class LoaderThread implements Runnable {
 
-	static FileInputStream ler;
-	static String dados = new String();
 	static RingBuffer rb;
 	static RingBufferItem rbi;
 	static HashMap<String, String> categoricos;
 	static HashMap<String, Double> continuos;
-	
+
+	static BufferedReader br;
+	static String[] linha;
+	static String strLinha;
+
 	public LoaderThread(RingBuffer rb) throws IOException {
 		this.rb = rb;
+		br = new BufferedReader(new FileReader("Datasets/Dataset1.csv"));
+		br.readLine();
+		br.readLine();
 	}
-	
+
+	public void load() {
+		rbi = rb.publish();
+		try {
+			strLinha = br.readLine();
+			if (strLinha != null) {
+				linha = strLinha.split(";");
+				if (rbi.getType() == TYPE.EMPTY) {
+					System.out.println("Entrou");
+
+					String id = "ID";
+					double idV = Double.parseDouble(linha[0]);
+
+					rbi.getMappingsContinuos().put(id, idV);
+					rbi.getMappingsContinuos().put("NOTA1",
+							Double.parseDouble(linha[1]));
+					rbi.getMappingsContinuos().put("NOTA2",
+							Double.parseDouble(linha[2]));
+					rbi.getMappingsContinuos().put("NOTA3",
+							Double.parseDouble(linha[3]));
+					rbi.getMappingsContinuos().put("NOTA4",
+							Double.parseDouble(linha[4]));
+					rbi.getMappingsContinuos().put("MEDIA",
+							Double.parseDouble(linha[5]));
+					rbi.getMappingsCatgoricos().put("SITUACAO", linha[6]);
+					rbi.getMappingsCatgoricos().put("CONCEITO", linha[7]);
+
+				}
+			}
+			else {
+				// Fim do arquivo
+			}
+		} catch (IOException e) {
+		}
+	}
+
 	@Override
 	public void run() {
-		// leitura do arquivo
-		try {
-			//ler = new FileInputStream("\\RingBuffer\\Datasets\\Dataset1.csv");
-			ler = new FileInputStream("Datasets/Dataset1.csv");
-		} catch (FileNotFoundException e) {}
-		
-		int letra;
-		String vet[];// = new String[8];
-		int i = 0;
-		
-		try {
-			while ( ((letra = ler.read()) != -1) && (i < 2)) {
-				dados += (char) letra;
-				if (letra == ((int) '\n')) {
-					i++;
-					dados = "";
-				}
-			}
-		} catch (IOException e) {}
-		
-		try {
-			while ((letra = ler.read()) != -1) {
-				dados += (char) letra;
-				if (letra == ((int) '\n')) {
-					vet = dados.split(";");
-					dados = "";
-					rbi = rb.publish();
-					if (rbi.getType() == TYPE.EMPTY) {
-						//continuos = rbi.getMappingsContinuos();
-						//categoricos = rbi.getMappingsCatgoricos();
-						rbi.setType(TYPE.DATA);
-						/*
-						continuos.put("ID", Double.parseDouble(vet[0]));
-						continuos.put("NOTA1", Double.parseDouble(vet[1]));
-						continuos.put("NOTA2", Double.parseDouble(vet[2]));
-						continuos.put("NOTA3", Double.parseDouble(vet[3]));
-						continuos.put("NOTA4", Double.parseDouble(vet[4]));
-						continuos.put("MEDIA", Double.parseDouble(vet[5]));
-						categoricos.put("SITUACAO", vet[6]);
-						categoricos.put("CONCEITO", vet[7]);
-						*/
-						
-						String id = "ID";
-						double idV = Double.parseDouble(vet[0]);
-						
-						rbi.getMappingsContinuos().put(id, idV);
-						
-						//rbi.getMappingsContinuos().put("ID", Double.parseDouble(vet[0]));
-						rbi.getMappingsContinuos().put("NOTA1", Double.parseDouble(vet[1]));
-						rbi.getMappingsContinuos().put("NOTA2", Double.parseDouble(vet[2]));
-						rbi.getMappingsContinuos().put("NOTA3", Double.parseDouble(vet[3]));
-						rbi.getMappingsContinuos().put("NOTA4", Double.parseDouble(vet[4]));
-						rbi.getMappingsContinuos().put("MEDIA", Double.parseDouble(vet[5]));
-						rbi.getMappingsCatgoricos().put("SITUACAO", vet[6]);
-						rbi.getMappingsCatgoricos().put("CONCEITO", vet[7]);
-						
-						System.out.println("Reading" + continuos.get("ID"));
-						//rbi.setMappingsCatgoricos(categoricos);
-						//rbi.setMappingsContinuos(continuos);
-						//rbi.setType(TYPE.DATA);
-					}
-				}
-			}
-		} catch (NumberFormatException | IOException e) {}
-
-		if (ler != null)
-			try {
-				ler.close();
-			} catch (IOException e) {}		
+		load();
 	}
 
 	public static void getMetadata() {
@@ -113,17 +86,22 @@ public class LoaderThread implements Runnable {
 				if (letra == ((int) '\n')) {
 					sair++;
 					//
-					if (sair<3) {
-						if (sair==1) {
+					if (sair < 3) {
+						if (sair == 1) {
 							nomes = dados.toString().trim().split(";");
-						} else if (sair==2) {
+						} else if (sair == 2) {
 							tipos = dados.toString().trim().split(";");
-							//criar tipos
+							// criar tipos
 							for (int i = 0; i < tipos.length; i++) {
 								if (tipos[i].equals("NUMERO")) {
-									continuous.put(nomes[i], new ContinuousAttribute(nomes[i], Double.MAX_VALUE, Double.MIN_VALUE));
+									continuous.put(nomes[i],
+											new ContinuousAttribute(nomes[i],
+													Double.MAX_VALUE,
+													Double.MIN_VALUE));
 								} else {
-									categoricals.put(nomes[i], new CategoricalAttribute(nomes[i], new ArrayList<String>()));
+									categoricals.put(nomes[i],
+											new CategoricalAttribute(nomes[i],
+													new ArrayList<String>()));
 								}
 							}
 						}
@@ -148,14 +126,15 @@ public class LoaderThread implements Runnable {
 				System.out.println(string);
 				System.out.print("{");
 				for (String s : categoricals.get(string).getValues()) {
-					System.out.print(s+",");
+					System.out.print(s + ",");
 				}
 				System.out.print("}\n");
 			}
 			System.out.println("Continuous:");
 			for (String string : continuous.keySet()) {
 				System.out.println(string);
-				System.out.println("Maior:"+continuous.get(string).getMax()+"; Menor: "+continuous.get(string).getMin());
+				System.out.println("Maior:" + continuous.get(string).getMax()
+						+ "; Menor: " + continuous.get(string).getMin());
 			}
 			if (ler != null)
 				ler.close();

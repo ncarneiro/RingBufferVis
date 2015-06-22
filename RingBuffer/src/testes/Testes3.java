@@ -18,10 +18,10 @@ public class Testes3 {
 		LoaderThread loader = null;
 		try {
 			loader = new LoaderThread(rb);
-			System.out.println("loader");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		Metadata metadata = new Metadata();
 		MapperThread mapper = new MapperThread(metadata, rb);
 		DrawThread drawer = new DrawThread(rb);
