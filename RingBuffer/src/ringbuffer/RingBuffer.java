@@ -31,15 +31,13 @@ public class RingBuffer {
 		return pub;
 	}
 	
-	public synchronized boolean modify() {
-		mod = true;
+	public synchronized RingBufferItem acess() {
 		rbi = buffer[pointerModifier];
 		if (rbi.getType()==TYPE.DATA) {
-			//TODO
+			return rbi;
 		} else {
-			//TODO
+			return null;
 		}
-		return mod;
 	}
 	
 	public synchronized RingBufferItem consume(RingBufferItem o) {

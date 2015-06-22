@@ -14,8 +14,9 @@ public class RingBufferItem {
 	private int id;
 	
 	//data information
-	private HashMap<String, String> details;
-	private HashMap<String, String> mappings;
+	//private HashMap<String, String> details;
+	private HashMap<String, String> mappingsCatgoricos;
+	private HashMap<String, Double> mappingsContinuos;
 	
 	//drawing information
 	private Color color;
@@ -25,8 +26,9 @@ public class RingBufferItem {
 	
 	public RingBufferItem() {
 		this.id = -1;
-		this.details = new HashMap<String, String>();
-		this.mappings = new HashMap<String, String>();
+		//this.details = new HashMap<String, String>();
+		this.setMappingsCatgoricos(new HashMap<String, String>());
+		this.setMappingsContinuos(new HashMap<String, Double>());
 		this.color = Color.WHITE;
 		this.x = new int[limitOfPoints];
 		this.y = new int[limitOfPoints];
@@ -87,6 +89,22 @@ public class RingBufferItem {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public HashMap<String, String> getMappingsCatgoricos() {
+		return mappingsCatgoricos;
+	}
+
+	public void setMappingsCatgoricos(HashMap<String, String> mappingsCatgoricos) {
+		this.mappingsCatgoricos = mappingsCatgoricos;
+	}
+
+	public HashMap<String, Double> getMappingsContinuos() {
+		return mappingsContinuos;
+	}
+
+	public void setMappingsContinuos(HashMap<String, Double> mappingsContinuos) {
+		this.mappingsContinuos = mappingsContinuos;
 	}
 	
 }
