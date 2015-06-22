@@ -21,8 +21,8 @@ public class RingBuffer {
 			buffer[i] = new RingBufferItem();
 		}
 		pointerPublisher = 0;
-		pointerModifier = -1;
-		pointerConsumer = -1;
+		pointerModifier = 0;
+		pointerConsumer = 0;
 	}
 	
 	public synchronized RingBufferItem publish() {
