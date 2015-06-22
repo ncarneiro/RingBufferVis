@@ -33,7 +33,7 @@ public class LoaderThread implements Runnable {
 			strLinha = br.readLine();
 			if (strLinha != null) {
 				linha = strLinha.split(";");
-				if (rbi.getType() == TYPE.EMPTY) {
+				if (rbi != null) {
 					System.out.println("Entrou");
 
 					String id = "ID";
