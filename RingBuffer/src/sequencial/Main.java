@@ -9,8 +9,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 	
-		
-		
+		Load loader = new Load();
+		dados = loader.load();
 		
 		Draw drawer = new Draw(desenho);
 		drawer.draw();
