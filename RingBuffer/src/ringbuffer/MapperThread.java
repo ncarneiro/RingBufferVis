@@ -30,11 +30,7 @@ public class MapperThread implements Runnable {
 		rbi = ringBuffer.acess();
 		if (rbi.getType()!=null) {
 			//categoricos
-			int sssss = rbi.getMappingsCatgoricos().size();
-			sssss = 0 + sssss;
-			String srbi = rbi.getMappingsCatgoricos().get(metadata.getColorName());
-			int irbi = metadata.getColor().getValues().indexOf(srbi);
-			rbi.setColor(colors[irbi]);
+			rbi.setColor(colors[metadata.getColor().getValues().indexOf(rbi.getMappingsCatgoricos().get(metadata.getColorName()))]);
 			rbi.setSize(sizes[metadata.getSize().getValues().indexOf(rbi.getMappingsCatgoricos().get(metadata.getSizeName()))]);
 			//continuos
 			rbi.setNumberOfPoints(currentPoints);

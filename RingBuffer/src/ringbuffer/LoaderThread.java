@@ -20,11 +20,15 @@ public class LoaderThread implements Runnable {
 	static String[] linha;
 	static String strLinha;
 
-	public LoaderThread(RingBuffer rb) throws IOException {
+	public LoaderThread(RingBuffer rb) {
 		this.rb = rb;
-		br = new BufferedReader(new FileReader("Datasets/Dataset1.csv"));
-		br.readLine();
-		br.readLine();
+		try {
+			br = new BufferedReader(new FileReader("Datasets/Dataset1.csv"));
+			br.readLine();
+			br.readLine();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	public void load() {
@@ -52,7 +56,8 @@ public class LoaderThread implements Runnable {
 							Double.parseDouble(linha[5]));
 					rbi.getMappingsCatgoricos().put("SITUACAO", linha[6]);
 					rbi.getMappingsCatgoricos().put("CONCEITO", linha[7]);
-
+					
+					rbi.setType(TYPE.DATA);
 				}
 			}
 			else {
