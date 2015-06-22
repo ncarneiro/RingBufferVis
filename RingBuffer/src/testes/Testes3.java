@@ -18,9 +18,7 @@ public class Testes3 {
 		LoaderThread loader = null;
 		try {
 			loader = new LoaderThread(rb);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch {};
 		
 		Metadata metadata = new Metadata();
 		MapperThread mapper = new MapperThread(metadata, rb);
