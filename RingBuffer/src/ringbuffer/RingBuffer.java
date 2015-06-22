@@ -17,23 +17,25 @@ public class RingBuffer {
 	
 	public RingBuffer(int bufferSize) {
 		this.buffer = new RingBufferItem[bufferSize>minimumSize?bufferSize:minimumSize];
+		for (int i = 0; i < buffer.length; i++) {
+			buffer[i] = new RingBufferItem();
+		}
 	}
 	
-	public synchronized boolean publish(RingBufferItem o) {
-		pub = true;
-		rbi = buffer[pointerPublisher];
-		if (rbi==null) {
-			buffer[pointerPublisher] = o;
+	public synchronized RingBufferItem publish() {
+		rbi = buffer[pointerModifier];
+		if (rbi.getType()==TYPE.EMPTY) {
 			pointerPublisher = addToPointer(pointerPublisher);
-			} else {
-			pub = false;
+			return rbi;
+		} else {
+			return null;
 		}
-		return pub;
 	}
 	
 	public synchronized RingBufferItem acess() {
 		rbi = buffer[pointerModifier];
 		if (rbi.getType()==TYPE.DATA) {
+			pointerModifier = addToPointer(pointerModifier);
 			return rbi;
 		} else {
 			return null;
@@ -41,10 +43,13 @@ public class RingBuffer {
 	}
 	
 	public synchronized RingBufferItem consume() {
-		rbi = buffer[pointerConsumer];
-		buffer[pointerConsumer] = null;
-		pointerConsumer = addToPointer(pointerConsumer);
-		return rbi;
+		rbi = buffer[pointerModifier];
+		if (rbi.getType()==TYPE.DRAWING) {
+			pointerConsumer = addToPointer(pointerConsumer);
+			return rbi;
+		} else {
+			return null;
+		}
 	}
 	
 	private synchronized int addToPointer(int pointer) {

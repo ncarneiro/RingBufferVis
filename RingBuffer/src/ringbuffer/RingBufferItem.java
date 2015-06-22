@@ -27,6 +27,7 @@ public class RingBufferItem {
 	private int size;
 	
 	public RingBufferItem() {
+		this.type = TYPE.EMPTY;
 		this.id = -1;
 		//this.details = new HashMap<String, String>();
 		this.setMappingsCatgoricos(new HashMap<String, String>());
