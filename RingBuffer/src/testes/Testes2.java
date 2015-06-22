@@ -1,12 +1,12 @@
 package testes;
 
 import ringbuffer.ContinuousAttribute;
-import ringbuffer.Loader;
+import ringbuffer.LoaderThread;
 
 public class Testes2 {
 	
 	public static void main(String[] args) {
-		Loader.getMetadata();
+		LoaderThread.getMetadata();
 	}
 	
 }

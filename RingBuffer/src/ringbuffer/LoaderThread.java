@@ -1,31 +1,80 @@
 package ringbuffer;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Loader {
+import ringbuffer.RingBufferItem.TYPE;
+
+public class LoaderThread implements Runnable {
 
 	static FileInputStream ler;
-	static StringBuffer dados = new StringBuffer();
-
-	public static void carregarBase() throws IOException {
+	static String dados = new String();
+	static RingBuffer rb;
+	static RingBufferItem rbi;
+	static HashMap<String, String> categoricos;
+	static HashMap<String, Double> continuos;
+	
+	public LoaderThread(RingBuffer rb) throws IOException {
+		this.rb = rb;
+	}
+	
+	@Override
+	public void run() {
 
 		// leitura do arquivo
-		ler = new FileInputStream("/RingBuffer/Datasets/Dataset1.csv");
-		int letra;
-		while ((letra = ler.read()) != -1) {
-			dados.append((char) letra);
-			if (letra == ((int) '\n')) {
-				System.out.print("Colocar no ringbuffer " + dados);
-				dados.setLength(0);
-			}
+		try {
+			//ler = new FileInputStream("\\RingBuffer\\Datasets\\Dataset1.csv");
+			ler = new FileInputStream("C:\\Users\\TiagoDavi\\git\\RingBufferVis\\RingBuffer\\Datasets\\Dataset1.csv");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
+		int letra;
+		String vet[] = new String[8];
+		int i = 0;
+		try {
+			while ((letra = ler.read()) != -1 || i < 2) {
+				dados += (char) letra;
+				if (letra == ((int) '\n')) {
+					i++;
+					dados = "";
+				}
+			}
+		} catch (IOException e) { }
+		
+		try {
+			while ((letra = ler.read()) != -1) {
+				dados += (char) letra;
+				if (letra == ((int) '\n')) {
+					vet = dados.split(";");
+					dados = "";
+					rbi = rb.publish();
 
-		System.out.println("Finalizar");
+					if (rbi.getType() == TYPE.EMPTY) {
+						System.out.println("Reading");
+						rbi.setType(TYPE.DATA);
+						continuos.put("ID", Double.parseDouble(vet[0]));
+						continuos.put("NOTA1", Double.parseDouble(vet[1]));
+						continuos.put("NOTA2", Double.parseDouble(vet[2]));
+						continuos.put("NOTA3", Double.parseDouble(vet[3]));
+						continuos.put("NOTA4", Double.parseDouble(vet[4]));
+						continuos.put("MEDIA", Double.parseDouble(vet[5]));
+						categoricos.put("SITUACAO", vet[6]);
+						categoricos.put("CONCEITO", vet[7]);
+						
+						rbi.setMappingsCatgoricos(categoricos);
+						rbi.setMappingsContinuos(continuos);
+					}
+				}
+			}
+		} catch (NumberFormatException | IOException e) {}
+
 		if (ler != null)
-			ler.close();
+			try {
+				ler.close();
+			} catch (IOException e) {}		
 	}
 
 	public static void getMetadata() {
@@ -98,5 +147,4 @@ public class Loader {
 		}
 
 	}
-
 }

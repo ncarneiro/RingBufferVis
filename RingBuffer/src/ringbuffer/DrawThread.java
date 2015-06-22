@@ -8,50 +8,53 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import ringbuffer.RingBufferItem.TYPE;
+
 public class DrawThread implements Runnable {
 
 	static JLabel view;
 	static BufferedImage surface;
 	static Graphics g;
-
-	public static void setView() {
-		surface = new BufferedImage(600, 400, BufferedImage.TYPE_INT_RGB);
+	static RingBuffer rb;
+	static RingBufferItem rbi;
+	
+	public DrawThread(RingBuffer rb) {
+		surface = new BufferedImage(650, 650, BufferedImage.TYPE_INT_RGB);
 		view = new JLabel(new ImageIcon(surface));
 		g = surface.getGraphics();
-		g.setColor(Color.ORANGE);
-		g.fillRect(0, 0, 600, 400);
+		g.setColor(Color.WHITE);
+		this.rb = rb;
+		g.fillRect(0, 0, 650, 650);
 		g.dispose();
-
-		view.repaint(); // MAGIC
 	}
 	
-	public static void addElemento(RingBufferItem item) {
-		g = surface.getGraphics();
-		g.setColor(Color.BLACK);
-		// desenhar
-		int x = item.getX()[0];
-		int y = item.getY()[0];
+	public synchronized static void desenhar() {
 		
-		int[] xv = { x - 10, x + 10, x + 10, x - 10 };
-		int[] yv = {    y  ,   y   , y + 20, y + 20 };
-
-		g.drawPolygon(xv, yv, 4);
-		
-		g.dispose();
+		rbi = rb.consume();
+		if ( rbi == null  || rbi.getType() == TYPE.DRAWING ) {
+			System.out.println("Desenhando");
+			g = surface.getGraphics();
+			g.setColor(rbi.getColor());
+			int[] x = rbi.getX();
+			int[] y = rbi.getY();	
+			g.drawPolygon(x, y, rbi.getNumberOfPoints());
+			g.fillPolygon(x, y, rbi.getNumberOfPoints());
+			g.dispose();
+			rbi.setType(TYPE.EMPTY);
+		}
 	}
 	
 	@Override
 	public void run() {	
 		JFrame frame = new JFrame();
-		int vertexes = 0;
-		// Tamanho
-		vertexes = 15;
-		int canvasSize = vertexes * vertexes;
+		int canvasSize = 600;
 		frame.setSize(canvasSize, canvasSize);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(view);
 		frame.pack();
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
+		desenhar();
+		view.repaint(); // MAGIC
 	}
 }

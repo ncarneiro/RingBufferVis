@@ -15,7 +15,6 @@ public class MapperThread implements Runnable {
 	private int y;
 	private int currentPoints = 4;
 	
-	
 	private Metadata metadata;
 	private RingBuffer ringBuffer;
 	private RingBufferItem rbi;
