@@ -26,10 +26,18 @@ public class DrawThread implements Runnable {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 650, 650);
 		g.dispose();
+		
+		JFrame frame = new JFrame();
+		int canvasSize = 600;
+		frame.setSize(canvasSize, canvasSize);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setContentPane(view);
+		frame.pack();
+		frame.setLocationByPlatform(true);
+		frame.setVisible(true);
 	}
 	
-	public synchronized static void desenhar() {
-		
+	public synchronized void desenhar() {
 		rbi = rb.consume();
 		if ( rbi != null   ) {
 			System.out.println("Desenhando");
@@ -41,20 +49,12 @@ public class DrawThread implements Runnable {
 			g.fillPolygon(x, y, rbi.getNumberOfPoints());
 			g.dispose();
 			rbi.setType(TYPE.EMPTY);
+			view.repaint(); // MAGIC
 		}
 	}
 	
 	@Override
-	public void run() {	
-		JFrame frame = new JFrame();
-		int canvasSize = 600;
-		frame.setSize(canvasSize, canvasSize);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(view);
-		frame.pack();
-		frame.setLocationByPlatform(true);
-		frame.setVisible(true);
+	public void run() {
 		desenhar();
-		view.repaint(); // MAGIC
 	}
 }
