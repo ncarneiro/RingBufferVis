@@ -8,14 +8,18 @@ public class RingBuffer {
 	private int pointerPublisher;
 	private int pointerModifier;
 	private int pointerConsumer;
-
+	
+	private int counter;
+	private int max;
+	private boolean ended;
+	
 	// control and response
 	private final int minimumSize = 3;
 	// private boolean pub;
 	// private boolean mod;
 	private RingBufferItem rbi;
 
-	public RingBuffer(int bufferSize) {
+	public RingBuffer(int bufferSize, int totalItems) {
 		this.buffer = new RingBufferItem[bufferSize > minimumSize ? bufferSize
 				: minimumSize];
 		for (int i = 0; i < buffer.length; i++) {
@@ -24,6 +28,9 @@ public class RingBuffer {
 		pointerPublisher = 0;
 		pointerModifier = 0;
 		pointerConsumer = 0;
+		this.max = totalItems;
+		this.counter = 0;
+		this.ended = false;
 	}
 
 	public synchronized RingBufferItem publish() {
@@ -57,14 +64,26 @@ public class RingBuffer {
 	}
 
 	private synchronized int addToPointer(int pointer) {
+		addToTotal();
 		return pointer == buffer.length - 1 ? 0 : pointer + 1;
 	}
-
+	
+	private synchronized void addToTotal() {
+		counter++;
+		if (counter==max+1) {
+			ended = true;
+		}
+	}
+	
+	public synchronized boolean isEnded() {
+		return ended;
+	}
+	
 	@Override
 	public String toString() {
 		return (super.toString() + ": Size: " + buffer.length
 				+ "; pPublisher: " + pointerPublisher + "; pModifier: "
 				+ pointerModifier + "; pConsusmer: " + pointerConsumer + ";");
 	}
-
+	
 }

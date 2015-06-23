@@ -8,8 +8,6 @@ public class MapperThread implements Runnable {
 	
 	private Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE, Color.YELLOW, Color.MAGENTA, Color.PINK, Color.CYAN, Color.DARK_GRAY, Color.BLACK, Color.WHITE};
 	private int[] sizes = {1,2,3};
-	private int largura = 600;
-	private int altura = 600;
 	
 	private int x;
 	private int y;
@@ -34,8 +32,8 @@ public class MapperThread implements Runnable {
 			rbi.setSize(sizes[metadata.getSize().getValues().indexOf(rbi.getMappingsCatgoricos().get(metadata.getSizeName()))]);
 			//continuos
 			rbi.setNumberOfPoints(currentPoints);
-			x = (int)metadata.getAxisX().convertToInterval(0, largura, rbi.getMappingsContinuos().get(metadata.getAxisXName()));
-			y = (int)metadata.getAxisY().convertToInterval(0, altura, rbi.getMappingsContinuos().get(metadata.getAxisYName()));
+			x = (int)metadata.getAxisX().convertToInterval(0, metadata.getScreenWidth(), rbi.getMappingsContinuos().get(metadata.getAxisXName()));
+			y = (int)metadata.getAxisY().convertToInterval(0, metadata.getScreenHeight(), rbi.getMappingsContinuos().get(metadata.getAxisYName()));
 			for (int i = 0; i < currentPoints; i++) {
 				if (i==0 || i==3) {
 					rbi.getX()[i] = x-10;

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Metadata {
 	
+	private int screenWidth = 500;
+	private int screenHeight = 500;
+	private int numberOfItems;
+	
 	//categorical
 	private CategoricalAttribute color;
 	private CategoricalAttribute size;
@@ -21,6 +25,7 @@ public class Metadata {
 		size = new CategoricalAttribute("SITUACAO", aux);
 		axisX = new ContinuousAttribute("ID", 1, 5000);
 		axisY = new ContinuousAttribute("MEDIA", 0, 9);
+		this.numberOfItems = 5000;
 	}
 
 	public CategoricalAttribute getColor() {
@@ -69,6 +74,26 @@ public class Metadata {
 
 	public String getAxisYName() {
 		return axisY.getColumnName();
+	}
+
+	public int getScreenWidth() {
+		return screenWidth;
+	}
+
+	public void setScreenWidth(int screenWidth) {
+		this.screenWidth = screenWidth;
+	}
+
+	public int getScreenHeight() {
+		return screenHeight;
+	}
+
+	public void setScreenHeight(int screenHeight) {
+		this.screenHeight = screenHeight;
+	}
+
+	public int getNumberOfItems() {
+		return numberOfItems;
 	}
 
 }
