@@ -18,9 +18,9 @@ public class Draw {
 	static JLabel view;
 	static BufferedImage surface;
 	static Graphics g;
-	static HashMap<String, String> desenho = new HashMap<String, String>();
+	static Item[] desenho;
 	
-	public Draw(HashMap<String, String> desenho) {
+	public Draw(Item[] desenho) {
 		this.desenho = desenho;
 		surface = new BufferedImage(650, 650, BufferedImage.TYPE_INT_RGB);
 		view = new JLabel(new ImageIcon(surface));
@@ -32,17 +32,17 @@ public class Draw {
 	
 	public static void desenhar() {
 
-		g = surface.getGraphics();
-		String strCor = desenho.get("Cor");
-		Color cor = Color.red;
+		for (int i = 0; i < desenho.length; i++) {
+			g = surface.getGraphics();
+			Color cor = desenho[i].getColor();
+			g.setColor(cor);
+			int[] x = desenho[i].getX();
+			int[] y = desenho[i].getY();	
+			g.drawPolygon(x, y, desenho[i].getNumberOfPoints());
+			g.fillPolygon(x, y, desenho[i].getNumberOfPoints());
+			g.dispose();
+		}
 		
-		
-		g.setColor(cor);
-//		int[] x = rbi.getX();
-//		int[] y = rbi.getY();	
-//		g.drawPolygon(x, y, rbi.getNumberOfPoints());
-//		g.fillPolygon(x, y, rbi.getNumberOfPoints());
-		g.dispose();
 	}
 	
 	public void draw() {	
