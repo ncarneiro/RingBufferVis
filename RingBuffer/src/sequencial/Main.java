@@ -2,11 +2,12 @@ package sequencial;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
 
-	static String dados[];
-	static Item desenho[];
+	static List<HashMap<String,String>> dados;
+	static List<Item> desenho;
 	
 	public static void main(String[] args) {
 	
@@ -14,16 +15,8 @@ public class Main {
 		dados = loader.load();
 		Metadata metadata = new Metadata();
 		Mapper mapper = new Mapper(metadata, dados);
+		desenho = mapper.map();
 		Draw drawer = new Draw(desenho);
 		drawer.draw();
 	}
-	
-	public static void carregarBase() {
-		
-	}
-	
-	public static void	mapear() {
-		
-	}
-	
 }

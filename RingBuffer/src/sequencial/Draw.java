@@ -3,25 +3,22 @@ package sequencial;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import ringbuffer.RingBuffer;
-import ringbuffer.RingBufferItem;
-import ringbuffer.RingBufferItem.TYPE;
-
 public class Draw {
 
-	static JLabel view;
-	static BufferedImage surface;
-	static Graphics g;
-	static Item[] desenho;
+	JLabel view;
+	BufferedImage surface;
+	Graphics g;
+	List<Item> desenho = new ArrayList<Item>();
 	
-	public Draw(Item[] desenho) {
-		this.desenho = desenho;
+	public Draw(List<Item> desenho2) {
+		this.desenho = desenho2;
 		surface = new BufferedImage(650, 650, BufferedImage.TYPE_INT_RGB);
 		view = new JLabel(new ImageIcon(surface));
 		g = surface.getGraphics();
@@ -30,19 +27,18 @@ public class Draw {
 		g.dispose();
 	}
 	
-	public static void desenhar() {
+	public void desenhar() {
 
-		for (int i = 0; i < desenho.length; i++) {
+		for (int i = 0; i < desenho.size(); i++) {
 			g = surface.getGraphics();
-			Color cor = desenho[i].getColor();
+			Color cor = desenho.get(i).getColor();
 			g.setColor(cor);
-			int[] x = desenho[i].getX();
-			int[] y = desenho[i].getY();	
-			g.drawPolygon(x, y, desenho[i].getNumberOfPoints());
-			g.fillPolygon(x, y, desenho[i].getNumberOfPoints());
+			int[] x = desenho.get(i).getX();
+			int[] y = desenho.get(i).getY();	
+			g.drawPolygon(x, y, desenho.get(i).getNumberOfPoints());
+			g.fillPolygon(x, y, desenho.get(i).getNumberOfPoints());
 			g.dispose();
 		}
-		
 	}
 	
 	public void draw() {	

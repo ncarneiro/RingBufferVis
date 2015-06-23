@@ -1,7 +1,9 @@
 package sequencial;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Mapper {
 
@@ -14,50 +16,58 @@ public class Mapper {
 	private int y;
 	private int currentPoints = 4;
 	
-	
-	HashMap<String, String>[] categoricos;
-	HashMap<String, Double>[] continuos;
+	List<HashMap<String, String>> categoricos = new ArrayList<HashMap<String,String>>();
+	List<HashMap<String, Double>> continuos = new ArrayList<HashMap<String,Double>>();
 	Metadata metadata;
-	Item item;
+	List<Item> item = new ArrayList<Item>();
 	
-	public Mapper(Metadata metadata, String[] dados) {
+	public Mapper(Metadata metadata, List<HashMap<String,String>> dados) {
 		this.metadata = metadata;
 		
-		for (int i = 0; i < dados.length; i++) {
-			String[] vetor = dados[i].split(";");	
-			continuos[i].put("ID", Double.parseDouble(vetor[0]));
-			continuos[i].put("NOTA1", Double.parseDouble(vetor[1]));
-			continuos[i].put("NOTA2", Double.parseDouble(vetor[2]));
-			continuos[i].put("NOTA3", Double.parseDouble(vetor[3]));
-			continuos[i].put("NOTA4", Double.parseDouble(vetor[4]));
-			continuos[i].put("MEDIA", Double.parseDouble(vetor[5]));
-			categoricos[i].put("SITUACAO", vetor[6]);
-			categoricos[i].put("CONCEITO", vetor[7]);
+		for (int i = 0; i < dados.size(); i++) {
+			HashMap<String, Double> auxCont = new HashMap<String, Double>();
+			HashMap<String, String> auxCat = new HashMap<String, String>();
+			
+			auxCont.put("ID", Double.parseDouble(dados.get(i).get("ID")));
+			auxCont.put("NOTA1", Double.parseDouble(dados.get(i).get("NOTA1")));
+			auxCont.put("NOTA2", Double.parseDouble(dados.get(i).get("NOTA2")));
+			auxCont.put("NOTA3", Double.parseDouble(dados.get(i).get("NOTA3")));
+			auxCont.put("NOTA4", Double.parseDouble(dados.get(i).get("NOTA4")));
+			auxCont.put("MEDIA", Double.parseDouble(dados.get(i).get("MEDIA")));
+			auxCat.put("SITUACAO", dados.get(i).get("SITUACAO"));
+			auxCat.put("CONCEITO", dados.get(i).get("CONCEITO"));
+			
+			continuos.add(auxCont);
+			categoricos.add(auxCat);
 		}
 	}
 	
-	public void map() {
+	public List<Item> map() {
 	
-		//categoricos
-		item.setColor(colors[metadata.getColor().getValues().indexOf(item.getMappingsCatgoricos().get(metadata.getColorName()))]);
-		item.setSize(sizes[metadata.getSize().getValues().indexOf(item.getMappingsCatgoricos().get(metadata.getSizeName()))]);
-		//continuos
-		item.setNumberOfPoints(currentPoints);
-		x = (int)metadata.getAxisX().convertToInterval(0, largura, item.getMappingsContinuos().get(metadata.getAxisXName()));
-		y = (int)metadata.getAxisY().convertToInterval(0, altura, item.getMappingsContinuos().get(metadata.getAxisYName()));
-		for (int i = 0; i < currentPoints; i++) {
-			if (i==0 || i==3) {
-				item.getX()[i] = x-10;
-			} else {
-				item.getX()[i] = x+10;
-			}
-			if (i<2) {
-				item.getY()[i] = y;
-			} else {
-				item.getY()[i] = y+20;
+		for (int i = 0; i < continuos.size(); i++) {
+			item.add(new Item());
+			item.get(i).setMappingsCatgoricos(categoricos.get(i));
+			item.get(i).setMappingsContinuos(continuos.get(i));
+			
+			item.get(i).setColor(colors[metadata.getColor().getValues().indexOf(item.get(i).getMappingsCatgoricos().get(metadata.getColorName()))]);
+			item.get(i).setSize(sizes[metadata.getSize().getValues().indexOf(item.get(i).getMappingsCatgoricos().get(metadata.getSizeName()))]);
+
+			item.get(i).setNumberOfPoints(currentPoints);
+			x = (int)metadata.getAxisX().convertToInterval(0, largura, item.get(i).getMappingsContinuos().get(metadata.getAxisXName()));
+			y = (int)metadata.getAxisY().convertToInterval(0, altura, item.get(i).getMappingsContinuos().get(metadata.getAxisYName()));
+			for (int j = 0; j < currentPoints; j++) {
+				if (j==0 || j==3) {
+					item.get(i).getX()[j] = x-10;
+				} else {
+					item.get(i).getX()[j] = x+10;
+				}
+				if (j<2) {
+					item.get(i).getY()[j] = y;
+				} else {
+					item.get(i).getY()[j] = y+20;
+				}
 			}
 		}
-	
-		
+		return item;
 	}
  }
