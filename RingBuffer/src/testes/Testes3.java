@@ -8,9 +8,12 @@ public class Testes3 {
 	public static void main(String[] args) {
 		Core c = new Core();
 		Metadata metadata = new Metadata();
-		for (int i = 0; i < 3; i++) {
+		esperar(10000);
+		for (int i = 0; i < 5; i++) {
 			c.runRingBuffer(1024, metadata.getNumberOfItems());
-			esperar(200000);
+			c.clear();
+			esperar(50000);
+			//esperar(10000);
 		}
 		
 	}

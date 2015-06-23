@@ -23,7 +23,8 @@ public class LoaderThread implements Runnable {
 	public LoaderThread(RingBuffer rb) {
 		this.rb = rb;
 		try {
-			br = new BufferedReader(new FileReader("Datasets/Dataset1.csv"));
+			br = new BufferedReader(new FileReader("Datasets/Dataset2_50000.csv"));
+			//br = new BufferedReader(new FileReader("Datasets/Dataset1.csv"));
 			br.readLine();
 			br.readLine();
 		} catch (Exception e) {

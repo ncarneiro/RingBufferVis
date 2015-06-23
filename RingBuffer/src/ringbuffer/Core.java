@@ -25,4 +25,12 @@ public class Core {
 		}
 	}
 	
+	public void clear() {
+		rb = null;
+		loader = null;
+		mapper = null;
+		drawer = null;
+		System.gc();
+	}
+	
 }
