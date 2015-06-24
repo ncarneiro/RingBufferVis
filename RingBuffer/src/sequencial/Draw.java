@@ -17,8 +17,8 @@ public class Draw {
 	Graphics g;
 	List<Item> desenho = new ArrayList<Item>();
 	
-	public Draw(List<Item> desenho2) {
-		this.desenho = desenho2;
+	public Draw(List<Item> desenho) {
+		this.desenho = desenho;
 		surface = new BufferedImage(650, 650, BufferedImage.TYPE_INT_RGB);
 		view = new JLabel(new ImageIcon(surface));
 		g = surface.getGraphics();
@@ -47,10 +47,14 @@ public class Draw {
 		frame.setSize(canvasSize, canvasSize);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(view);
+		
+		BaseCanvas bc = new BaseCanvas();
+		frame.getContentPane().add(bc);
+		
 		frame.pack();
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 		desenhar();
-		view.repaint(); // MAGIC
+		view.repaint();
 	}
 }

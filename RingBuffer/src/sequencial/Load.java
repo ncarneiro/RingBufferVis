@@ -18,7 +18,7 @@ public class Load {
 	
 	List<HashMap<String, String>> load() {
 		try {
-			br = new BufferedReader(new FileReader("Datasets/Dataset1.csv"));
+			br = new BufferedReader(new FileReader("Datasets/Dataset3_500000.csv"));
 			br.readLine();
 			br.readLine();
 		
