@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import ringbuffer.RingBufferItem.TYPE;
 
-public class DrawThread implements Runnable {
+public class DrawThread extends Thread {//implements Runnable {
 
 	static JLabel view;
 	static BufferedImage surface;

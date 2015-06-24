@@ -25,7 +25,7 @@ public class Metadata {
 		size = new CategoricalAttribute("SITUACAO", aux);
 		axisX = new ContinuousAttribute("ID", 1, 5000);
 		axisY = new ContinuousAttribute("MEDIA", 0, 9);
-		this.numberOfItems = 500000;
+		this.numberOfItems = 50000;
 	}
 
 	public CategoricalAttribute getColor() {

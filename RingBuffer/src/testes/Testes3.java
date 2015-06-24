@@ -7,7 +7,7 @@ public class Testes3 {
 
 	public static void main(String[] args) {
 		int tamanhoDoRingbuffer = 1024;
-		int espera = 12;//em segundos
+		int espera = 1;//em segundos
 		
 		Metadata metadata = new Metadata();
 		Core c = new Core(tamanhoDoRingbuffer, metadata.getNumberOfItems());

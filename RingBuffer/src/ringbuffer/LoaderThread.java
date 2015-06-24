@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 import ringbuffer.RingBufferItem.TYPE;
 
-public class LoaderThread implements Runnable {
+public class LoaderThread extends Thread {//implements Runnable {
 
 	static RingBuffer rb;
 	static RingBufferItem rbi;
@@ -72,7 +72,7 @@ public class LoaderThread implements Runnable {
 	public void run() {
 		load();
 	}
-
+	
 	public static void getMetadata() {
 		FileInputStream ler;
 		StringBuffer dados = new StringBuffer();

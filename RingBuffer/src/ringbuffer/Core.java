@@ -27,7 +27,7 @@ public class Core extends Thread {
 		runRingBuffer();
 		String fim = LocalDateTime.now().toString();
 		long f = System.currentTimeMillis();
-		//clear();
+		clear();
 		System.out.println("Duração: "+((f-i)/1000.0)+" segundos.");
 		System.out.println("Inicio:\t"+inicio);
 		System.out.println("Fim:\t"+fim);
@@ -38,11 +38,30 @@ public class Core extends Thread {
 		loader = new LoaderThread(rb);
 		mapper = new MapperThread(metadata, rb);
 		drawer = new DrawThread(rb);
+		//
 		while (!rb.isEnded()) {
 			loader.run();
 			mapper.run();
 			drawer.run();
 		}
+		//
+		/*
+		try {
+			loader.start();
+			loader.join();
+			mapper.start();
+			mapper.join();
+			drawer.start();
+			drawer.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		*/
+		/*
+		loader.start();
+		mapper.start();
+		drawer.start();
+		*/
 	}
 	
 	private void clear() {

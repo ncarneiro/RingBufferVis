@@ -11,7 +11,7 @@ public class RingBuffer {
 	
 	private int counter;
 	private int max;
-	private boolean ended;
+	private volatile boolean ended;
 	
 	// control and response
 	private final int minimumSize = 3;
@@ -56,22 +56,28 @@ public class RingBuffer {
 	public synchronized RingBufferItem consume() {
 		rbi = buffer[pointerConsumer];
 		if (rbi.getType() == TYPE.DRAWING) {
-			pointerConsumer = addToPointer(pointerConsumer);
+			pointerConsumer = addToPointerCount(pointerConsumer);
 			return rbi;
 		} else {
 			return null;
 		}
 	}
-
-	private synchronized int addToPointer(int pointer) {
+	
+	private synchronized int addToPointerCount(int pointer) {
 		addToTotal();
+		return pointer == buffer.length - 1 ? 0 : pointer + 1;
+	}
+	
+	private synchronized int addToPointer(int pointer) {
 		return pointer == buffer.length - 1 ? 0 : pointer + 1;
 	}
 	
 	private synchronized void addToTotal() {
 		counter++;
-		if (counter==max+1) {
+		//System.out.println(counter+"\t"+max);
+		if (counter>=max) {
 			ended = true;
+			//System.out.println(ended);
 		}
 	}
 	

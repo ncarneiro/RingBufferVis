@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import ringbuffer.RingBufferItem.TYPE;
 
-public class MapperThread implements Runnable {
+public class MapperThread extends Thread {//implements Runnable {
 	
 	private Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE, Color.YELLOW, Color.MAGENTA, Color.PINK, Color.CYAN, Color.DARK_GRAY, Color.BLACK, Color.WHITE};
 	private int[] sizes = {1,2,3};
