@@ -28,7 +28,7 @@ public class DrawThread extends Thread {//implements Runnable {
 		g.dispose();
 		
 		JFrame frame = new JFrame();
-		int canvasSize = 600;
+		int canvasSize = 500;
 		frame.setSize(canvasSize, canvasSize);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(view);
@@ -49,8 +49,13 @@ public class DrawThread extends Thread {//implements Runnable {
 			g.fillPolygon(x, y, rbi.getNumberOfPoints());
 			g.dispose();
 			rbi.setType(TYPE.EMPTY);
-			view.repaint(); // MAGIC
+			//view.repaint(); // MAGIC
 		}
+	}
+	
+	public synchronized void exit() {
+		view.revalidate();
+		view.repaint(); // MAGIC
 	}
 	
 	@Override

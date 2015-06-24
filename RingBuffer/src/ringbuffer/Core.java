@@ -44,6 +44,7 @@ public class Core extends Thread {
 			mapper.run();
 			drawer.run();
 		}
+		drawer.exit();
 		//
 		/*
 		try {
