@@ -20,8 +20,8 @@ public class RingBuffer {
 	private RingBufferItem rbi;
 
 	public RingBuffer(int bufferSize, int totalItems) {
-		this.buffer = new RingBufferItem[bufferSize > minimumSize ? bufferSize
-				: minimumSize];
+		this.buffer = new RingBufferItem[bufferSize > minimumSize ? bufferSize : minimumSize];
+		//this.buffer = new RingBufferItem[3];
 		for (int i = 0; i < buffer.length; i++) {
 			buffer[i] = new RingBufferItem();
 		}

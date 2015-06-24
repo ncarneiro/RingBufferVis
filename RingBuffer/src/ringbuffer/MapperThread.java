@@ -64,6 +64,11 @@ public class MapperThread extends Thread {//implements Runnable {
 	@Override
 	public void run() {
 		modify();
+		/*
+		while (!ringBuffer.isEnded()) {
+			modify();
+		}
+		*/
 	}
 	
 }

@@ -3,29 +3,61 @@ package ringbuffer;
 import java.util.ArrayList;
 
 public class Metadata {
-	
+
 	private int screenWidth = 500;
 	private int screenHeight = 500;
 	private int numberOfItems;
-	
-	//categorical
+
+	// categorical
 	private CategoricalAttribute color;
 	private CategoricalAttribute size;
-	
-	//continuous
+
+	// continuous
 	private ContinuousAttribute axisX;
 	private ContinuousAttribute axisY;
-	
-	public Metadata() {
+
+	public Metadata(String dataset) {
+		switch (dataset) {
+		case ("Datasets/Dataset1000000D.csv"):
+			preload2();
+			break;
+		default:
+			preload1();
+			break;
+		}
+	}
+
+	private void preload1() {//20k
 		ArrayList<String> aux = new ArrayList<String>();
-		aux.add("INS");aux.add("REG");aux.add("BOM");aux.add("EXC");
+		aux.add("INS");
+		aux.add("REG");
+		aux.add("BOM");
+		aux.add("EXC");
 		color = new CategoricalAttribute("CONCEITO", aux);
 		aux = new ArrayList<String>();
-		aux.add("RE");aux.add("AP");
+		aux.add("RE");
+		aux.add("AP");
 		size = new CategoricalAttribute("SITUACAO", aux);
-		axisX = new ContinuousAttribute("ID", 1, 5000);
-		axisY = new ContinuousAttribute("MEDIA", 0, 9);
-		this.numberOfItems = 50000;
+		axisX = new ContinuousAttribute("ID", 1, 20000);
+		axisY = new ContinuousAttribute("MEDIA", 0.646004953184473, 9.525669583318937);
+		this.numberOfItems = 20000;
+	}
+
+	private void preload2() {//1m
+		ArrayList<String> aux = new ArrayList<String>();
+		aux.add("INS");
+		aux.add("REG");
+		aux.add("BOM");
+		aux.add("EXC");
+		color = new CategoricalAttribute("CONCEITO", aux);
+		aux = new ArrayList<String>();
+		aux.add("RE");
+		aux.add("AP");
+		size = new CategoricalAttribute("SITUACAO", aux);
+		axisX = new ContinuousAttribute("ID", 1, 1000000);
+		axisY = new ContinuousAttribute("MEDIA", 0.13693470162697674,
+				9.843291469691156);
+		this.numberOfItems = 1000000;
 	}
 
 	public CategoricalAttribute getColor() {

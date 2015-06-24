@@ -13,9 +13,11 @@ public class Core extends Thread {
 	
 	private int ringbufferSize;
 	private int numberOfItems;
+	//private String dataset = "Datasets/Dataset1000000D.csv";
+	private String dataset = "Datasets/Dataset1000000D.csv";
 	
 	public Core(int ringbufferSize, int numberOfItems) {
-		metadata = new Metadata();
+		metadata = new Metadata(dataset);
 		this.ringbufferSize = ringbufferSize;
 		this.numberOfItems = numberOfItems;
 	}
@@ -35,7 +37,7 @@ public class Core extends Thread {
 	
 	private void runRingBuffer() {
 		rb = new RingBuffer(ringbufferSize, numberOfItems);
-		loader = new LoaderThread(rb);
+		loader = new LoaderThread(dataset, rb);
 		mapper = new MapperThread(metadata, rb);
 		drawer = new DrawThread(rb);
 		//
@@ -47,25 +49,22 @@ public class Core extends Thread {
 		drawer.exit();
 		//
 		/*
-		try {
-			loader.start();
-			loader.join();
-			mapper.start();
-			mapper.join();
-			drawer.start();
-			drawer.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		Thread[] threads = {loader, mapper, drawer};
+		for (Thread t : threads) {
+				t.start();
 		}
-		*/
-		/*
-		loader.start();
-		mapper.start();
-		drawer.start();
+		for (Thread t : threads) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		*/
 	}
 	
 	private void clear() {
+		drawer.exit();
 		rb = null;
 		loader = null;
 		mapper = null;

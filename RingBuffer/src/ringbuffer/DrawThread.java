@@ -61,5 +61,10 @@ public class DrawThread extends Thread {//implements Runnable {
 	@Override
 	public void run() {
 		desenhar();
+		/*
+		while (!rb.isEnded()) {
+			desenhar();;
+		}
+		*/
 	}
 }

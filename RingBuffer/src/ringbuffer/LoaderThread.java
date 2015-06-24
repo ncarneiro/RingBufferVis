@@ -20,11 +20,12 @@ public class LoaderThread extends Thread {//implements Runnable {
 	static String[] linha;
 	static String strLinha;
 
-	public LoaderThread(RingBuffer rb) {
+	public LoaderThread(String dataset, RingBuffer rb) {
 		this.rb = rb;
 		try {
-			br = new BufferedReader(new FileReader("Datasets/Dataset2_50000.csv"));
+			//br = new BufferedReader(new FileReader("Datasets/Dataset1000000D.csv"));
 			//br = new BufferedReader(new FileReader("Datasets/Dataset1.csv"));
+			br = new BufferedReader(new FileReader(dataset));
 			br.readLine();
 			br.readLine();
 		} catch (Exception e) {
@@ -71,14 +72,19 @@ public class LoaderThread extends Thread {//implements Runnable {
 	@Override
 	public void run() {
 		load();
+		/*
+		while (!rb.isEnded()) {
+			load();
+		}
+		*/
 	}
 	
-	public static void getMetadata() {
+	public static void getMetadata(String dataset) {
 		FileInputStream ler;
 		StringBuffer dados = new StringBuffer();
 		try {
 			// leitura do arquivo
-			ler = new FileInputStream("Datasets/Dataset1.csv");
+			ler = new FileInputStream(dataset);
 			int letra;
 			//
 			int sair = 0;

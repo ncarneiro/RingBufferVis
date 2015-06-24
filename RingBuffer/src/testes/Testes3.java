@@ -7,9 +7,10 @@ public class Testes3 {
 
 	public static void main(String[] args) {
 		int tamanhoDoRingbuffer = 1024;
-		int espera = 10;//em segundos
+		int espera = 1;//em segundos
 		
-		Metadata metadata = new Metadata();
+		//Metadata metadata = new Metadata("Datasets/Dataset1000000D.csv");
+		Metadata metadata = new Metadata("Datasets/Dataset20000D.csv");
 		Core c = new Core(tamanhoDoRingbuffer, metadata.getNumberOfItems());
 		
 		try {
