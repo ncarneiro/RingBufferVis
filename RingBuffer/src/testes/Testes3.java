@@ -6,24 +6,19 @@ import ringbuffer.Metadata;
 public class Testes3 {
 
 	public static void main(String[] args) {
-		Core c = new Core();
+		int tamanhoDoRingbuffer = 1024;
+		int espera = 12;//em segundos
+		
 		Metadata metadata = new Metadata();
-		esperar(10000);
-		for (int i = 0; i < 5; i++) {
-			c.runRingBuffer(1024, metadata.getNumberOfItems());
-			c.clear();
-			esperar(50000);
-			//esperar(10000);
+		Core c = new Core(tamanhoDoRingbuffer, metadata.getNumberOfItems());
+		
+		try {
+		    Thread.sleep(espera*1000);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
 		}
 		
-	}
-	
-	public static void esperar(long segundos) {
-		long ti = System.currentTimeMillis();
-		long tf = segundos+ti;
-		while (tf>ti) {
-			ti = System.currentTimeMillis();
-		}
+		c.start();
 	}
 	
 }

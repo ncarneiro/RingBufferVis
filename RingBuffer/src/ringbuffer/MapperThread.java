@@ -46,15 +46,15 @@ public class MapperThread implements Runnable {
 					rbi.getY()[i] = y+20;
 				}
 			}
-			//
+			rbi.setType(TYPE.DRAWING);
+			/*
 			System.out.print("X:"+x+",Y:"+y+"\t");
 			for (int i = 0; i < rbi.getX().length; i++) {
 				System.out.print(rbi.getX()[i]+","+rbi.getY()[i]+"; ");
 			}
 			System.out.println();
 			System.out.println();
-			//
-			rbi.setType(TYPE.DRAWING);
+			*/
 			return true;
 		} else {
 			return false;

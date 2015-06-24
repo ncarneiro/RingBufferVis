@@ -40,7 +40,7 @@ public class DrawThread implements Runnable {
 	public synchronized void desenhar() {
 		rbi = rb.consume();
 		if ( rbi != null   ) {
-			System.out.println("Desenhando");
+			//System.out.println("Desenhando");
 			g = surface.getGraphics();
 			g.setColor(rbi.getColor());
 			int[] x = rbi.getX();

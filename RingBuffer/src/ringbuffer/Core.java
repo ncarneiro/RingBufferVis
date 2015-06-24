@@ -1,6 +1,8 @@
 package ringbuffer;
 
-public class Core {
+import java.time.LocalDateTime;
+
+public class Core extends Thread {
 
 	private RingBuffer rb;
 	private Metadata metadata;
@@ -8,12 +10,30 @@ public class Core {
 	private LoaderThread loader;
 	private MapperThread mapper;
 	private DrawThread drawer;
-
-	public Core() {
+	
+	private int ringbufferSize;
+	private int numberOfItems;
+	
+	public Core(int ringbufferSize, int numberOfItems) {
 		metadata = new Metadata();
+		this.ringbufferSize = ringbufferSize;
+		this.numberOfItems = numberOfItems;
 	}
-
-	public void runRingBuffer(int ringbufferSize, int numberOfItems) {
+	
+	@Override
+	public synchronized void start() {
+		long i = System.currentTimeMillis();
+		String inicio = LocalDateTime.now().toString();
+		runRingBuffer();
+		String fim = LocalDateTime.now().toString();
+		long f = System.currentTimeMillis();
+		//clear();
+		System.out.println("Duração: "+((f-i)/1000.0)+" segundos.");
+		System.out.println("Inicio:\t"+inicio);
+		System.out.println("Fim:\t"+fim);
+	}
+	
+	private void runRingBuffer() {
 		rb = new RingBuffer(ringbufferSize, numberOfItems);
 		loader = new LoaderThread(rb);
 		mapper = new MapperThread(metadata, rb);
@@ -25,7 +45,7 @@ public class Core {
 		}
 	}
 	
-	public void clear() {
+	private void clear() {
 		rb = null;
 		loader = null;
 		mapper = null;

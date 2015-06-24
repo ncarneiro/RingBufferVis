@@ -39,7 +39,7 @@ public class LoaderThread implements Runnable {
 			if (strLinha != null) {
 				linha = strLinha.split(";");
 				if (rbi != null) {
-					System.out.println("Entrou");
+					//System.out.println("Entrou");
 
 					String id = "ID";
 					double idV = Double.parseDouble(linha[0]);
