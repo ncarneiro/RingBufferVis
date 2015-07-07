@@ -39,7 +39,7 @@ public class Metadata {
 		aux.add("AP");
 		size = new CategoricalAttribute("SITUACAO", aux);
 		axisX = new ContinuousAttribute("ID", 1, 20000);
-		axisY = new ContinuousAttribute("MEDIA", 0.646004953184473, 9.525669583318937);
+		axisY = new ContinuousAttribute("MEDIA", 0.36074108369511776, 9.759113984698196);
 		this.numberOfItems = 20000;
 	}
 

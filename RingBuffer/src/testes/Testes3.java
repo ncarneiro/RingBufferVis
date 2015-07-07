@@ -9,8 +9,8 @@ public class Testes3 {
 		int tamanhoDoRingbuffer = 1024;
 		int espera = 1;//em segundos
 		
-		//Metadata metadata = new Metadata("Datasets/Dataset1000000D.csv");
-		Metadata metadata = new Metadata("Datasets/Dataset20000D.csv");
+		Metadata metadata = new Metadata("Datasets/Dataset1000000D.csv");
+		//Metadata metadata = new Metadata("Datasets/Dataset20000D.csv");
 		Core c = new Core(tamanhoDoRingbuffer, metadata.getNumberOfItems());
 		
 		try {
@@ -20,6 +20,8 @@ public class Testes3 {
 		}
 		
 		c.start();
+		System.out.println(metadata.getAxisX().getColumnName());
+		System.out.println(metadata.getAxisY().getColumnName());
 	}
 	
 }

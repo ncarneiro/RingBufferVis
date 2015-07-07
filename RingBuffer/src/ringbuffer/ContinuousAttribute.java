@@ -21,14 +21,17 @@ public class ContinuousAttribute extends Attribute {
 	}
 	
 	public double convertToInterval(double min, double max, double value) {
-		double ajusteGlobal = this.min*-1;
-		double ajusteLocal = min*-1;
-		//double result = ((this.max+ajusteGlobal)*(value+ajusteLocal))/(max+ajusteLocal);
-		double result = ((max+ajusteLocal) * (value+ajusteLocal)) / (this.max+ajusteGlobal);
-		result+=this.min;
+		return r3(min, max, this.min, this.max, value);
+	}
+	
+	private double r3(double minA, double maxA, double minB, double maxB, double valB) {
+		double ajusteA = minA*-1;
+		double ajusteB = minB*-1;
+		double result = (valB+ajusteB)*(maxA+ajusteA)/(maxB+ajusteB);
+		result-=ajusteA;
 		return result;
 	}
-
+	
 	public double getMin() {
 		return min;
 	}

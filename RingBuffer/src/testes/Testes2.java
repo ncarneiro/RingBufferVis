@@ -1,6 +1,5 @@
 package testes;
 
-import ringbuffer.ContinuousAttribute;
 import ringbuffer.LoaderThread;
 
 public class Testes2 {

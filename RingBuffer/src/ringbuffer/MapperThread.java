@@ -32,8 +32,11 @@ public class MapperThread extends Thread {//implements Runnable {
 			rbi.setSize(sizes[metadata.getSize().getValues().indexOf(rbi.getMappingsCatgoricos().get(metadata.getSizeName()))]);
 			//continuos
 			rbi.setNumberOfPoints(currentPoints);
+			//ERRO AQUI
+			//
 			x = (int)metadata.getAxisX().convertToInterval(0, metadata.getScreenWidth(), rbi.getMappingsContinuos().get(metadata.getAxisXName()));
 			y = (int)metadata.getAxisY().convertToInterval(0, metadata.getScreenHeight(), rbi.getMappingsContinuos().get(metadata.getAxisYName()));
+			//
 			for (int i = 0; i < currentPoints; i++) {
 				if (i==0 || i==3) {
 					rbi.getX()[i] = x-10;
@@ -46,15 +49,22 @@ public class MapperThread extends Thread {//implements Runnable {
 					rbi.getY()[i] = y+20;
 				}
 			}
-			rbi.setType(TYPE.DRAWING);
 			/*
+			for (int i = 0; i < currentPoints; i++) {
+				rbi.getX()[i] = x;
+				rbi.getY()[i] = y;
+			}
+			*/
+			rbi.setType(TYPE.DRAWING);
+			//
 			System.out.print("X:"+x+",Y:"+y+"\t");
 			for (int i = 0; i < rbi.getX().length; i++) {
+				if (rbi.getX()[i]<0)
 				System.out.print(rbi.getX()[i]+","+rbi.getY()[i]+"; ");
 			}
 			System.out.println();
 			System.out.println();
-			*/
+			//
 			return true;
 		} else {
 			return false;
